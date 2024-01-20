@@ -10,6 +10,11 @@ from sklearn import set_config
 xgb_model = None
 pipe = None
 
+common_config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'common_config'))
+sys.path.append(common_config_path)
+
+import common_config as cmnfg
+
 @asynccontextmanager
 async def xgboost_model_lifespan(app: FastAPI):
     # Load the ML model
@@ -22,7 +27,7 @@ async def xgboost_model_lifespan(app: FastAPI):
 
         xgb_model = joblib.load(f"{model_name}.joblib")
 
-        with open('./transformation_pipeline.pkl', 'rb') as file:
+        with open(cmnfg.transformation_pipeline_file_name, 'rb') as file:
             pipe = cloudpickle.load(file)
 
         print("Model and tranformer object loaded")

@@ -2,6 +2,12 @@ import os
 import mlflow
 import joblib
 import cloudpickle
+import sys
+
+common_config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'common_config'))
+sys.path.append(common_config_path)
+
+import common_config as cmnfg
 
 def download_from_mlflow_and_save():
 
@@ -12,7 +18,7 @@ def download_from_mlflow_and_save():
     # Downloading the transformation pipeline object for packaging inside docker image
     mv = client.get_model_version_by_alias(model_name, alias="production")
 
-    mlflow.artifacts.download_artifacts(mv.source.replace('model', 'transformation_pipeline.pkl'), dst_path='.')
+    mlflow.artifacts.download_artifacts(mv.source.replace('model', cmnfg.transformation_pipeline_file_name), dst_path='.')
 
     xgb_model = mlflow.xgboost.load_model(f"models:/{model_name}@production")
 
