@@ -10,8 +10,6 @@ from sklearn import set_config
 xgb_model = None
 pipe = None
 
-import common_config as cmnfg
-
 @asynccontextmanager
 async def xgboost_model_lifespan(app: FastAPI):
     # Load the ML model
