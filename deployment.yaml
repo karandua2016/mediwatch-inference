@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mediwatch-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mediwatch-inference-api
+  template:
+    metadata:
+      labels:
+        app: mediwatch-inference-api
+    spec:
+      containers:
+        - name: mediwatch-inference-api-container
+          image: mediwatch-inference-api:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
