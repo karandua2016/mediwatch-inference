@@ -4,6 +4,8 @@ FROM python:3.8
 # Set the working directory to /app
 WORKDIR /app
 
+ARG MLFLOW_TRACKING_URI
+
 # Copy the current directory contents into the container at /app
 COPY . /app
 
@@ -11,7 +13,7 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements-inference.txt
 
 # Define environment variables for MLflow settings
-ENV MLFLOW_TRACKING_URI="http://host.docker.internal:8081"
+ENV MLFLOW_TRACKING_URI $MLFLOW_TRACKING_URI
 ENV MODEL_NAME="mediwatch-prediction"
 
 # Download the model from MLflow to be packaged as part of the docker image. 
